@@ -1,7 +1,7 @@
 BEGIN {
 FPAT = "([^,]+)|(\"[^\"]+\")"
 FS = ","
-printf "ranking \t car_id \t year \t car_make \t car_model \n" > ranking.out"
+printf "ranking \t car_id \t year \t car_make \t car_model \n" > "ranking.out"
 }
 {
 if(NR>1){
