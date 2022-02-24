@@ -2,6 +2,7 @@ BEGIN {
 FPAT = "([^,]+)|(\"[^\"]+\")"
 FS = ","
 printf "ranking \t car_id \t year \t car_make \t car_model \n" > "ranking.out"
+printf "ranking \t car_id \t year \t car_make \t car_model \n" > "topThree.out"
 }
 {
 if(NR>1){
@@ -13,5 +14,4 @@ printf total "\t"$7"\t"$4"\t"$5"\t"$6"\n" > "total.out"
 }
 }
 END{
-printf "ranking \t car_id \t year \t car_make \t car_model \n" > "total.out"
 }
