@@ -1,0 +1,61 @@
+ranking 	 car_id 	 year 	 car_make 	 car_model 
+42	49	1997	Acura	Integra
+4	174	2006	Acura	Rsx
+50	5	2003	Acura	Rsx
+14	220	2004	Audi	A4
+2	197	2010	Audi	A4
+28	116	2008	Audi	A4
+26	98	2012	Benz	C63
+8	28	1995	Bmw	318xi
+10	111	2007	Bmw	328i
+22	172	2014	Bmw	4
+0	0	2015	Chevy	Camaro
+64	218	2010	Chevy	Camaro
+50	170	2014	Chevy	Cruze
+96	216	2007	Chrystler	300
+48	104	2014	Civic coupe	Si
+38	99	2014	Civic	Si
+4	72	2016	Civic	Si
+8	42	2001	Dodge	Viper
+26	219	2016	Ford	Focus rs
+54	137	2017	Ford	Focus rs
+30	120	2014	Ford	Focus st
+10	102	2015	Honda	Accord
+112	83	2014	Honda	Accord
+18	226	2008	Honda	Accord
+66	30	2012	Hyundai	Celoster
+30	92	2017	Hyundai	Elantra sport
+62	38	2017	Hyundai	Elantra sport
+12	95	2004	Infiniti	G35
+128	128	2010	Infiniti	G37
+38	20	2009	Infinity	G37
+44	122	2011	Infinity	M37s
+124	124	2015	Jeep	Wrangler
+40	222	2015	Lexus	Is250
+6	212	2001	Lexus	Is300
+10	190	1995	Lexus	Sc300
+36	78	2015	Mazda	6
+10	138	1990	Mazda	Miata
+18	79	1993	Mazda	Miata
+78	25	2012	Mercedes	C250
+34	17	2016	Mercedes	C43
+70	84	2012	Mercedes	Cl63amg
+40	19	2001	Mitsub	Evo7
+44	140	1995	Mitsu	Evo8
+102	91	2010	Mitsu	Lancer
+40	176	2014	Mitsu	Lancer
+44	9	1996	Nissan	240
+62	12	1990	Nissan	240
+10	16	2008	Nissan	350z
+20	235	2013	Scion	Frs
+80	57	2015	Scion	Frs
+42	153	2017	Subaru	Brz
+32	24	2013	Subaru	BRZ
+6	64	2004	Subaru	Forester
+54	43	2011	Toyota	4 Runner
+24	241	2007	Toyota	Camry
+58	110	2011	Toyota	Camry
+20	182	2012	Volkswagen	Cc
+8	184	2010	Volkswagen	Cc
+92	126	2010	Volkswagen	Eos
+22	100	2006	Volvo	S60r
