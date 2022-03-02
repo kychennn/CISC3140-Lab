@@ -6,17 +6,21 @@ This task as described focuses on the use of multi-paradigmatic programming lang
 ## Requirements:
 The report should show aggregate values that are computed from the CSV file provided. Specifically, write to file (separate files, unless you can figure out how to output to a single file). The following requirements.
 
-o Across all cars, compute the total for each row and add as a new column. The output should show (ranking, car_id, year, car make, car model). Present the list in descending order using the total column and add a new ranking column.
+--- Across all cars, compute the total for each row and add as a new column. The output should show (ranking, car_id, year, car make, car model). Present the list in descending order using the total column and add a new ranking column.
 
-	-- script.awk
+	script.awk
 	
-	-- total.out
+	total.out
 	
-	-- ranking.out
+	ranking.out
 
 
 
-o For each Car Make grouping, list the top 3 cars (ranking, car_id, year, car make, car model, total score)
+--- For each Car Make grouping, list the top 3 cars (ranking, car_id, year, car make, car model, total score)
+
+	rankingAndMake.out
+	
+	topThreeEachMake.out
 
 ### Downloading data
 Add this REPO as a submodule to your git repository and set the folder name as data_lab1.
