@@ -163,7 +163,6 @@ Rank,Car_ID,Year,Make,Model,Score
 162,72,2016,Honda,"Civic si",4
 163,174,2006,Acura,Rsx,4
 164,197,2010,Audi,A4,2
-165,Car_ID,Year,Make,Model,0
-166,101,2014,Honda,Civic,0
-167,0,2015,Chevy,Camaro,0
-168,70,2014,Honda,Civic,0
+165,101,2014,Honda,Civic,0
+166,0,2015,Chevy,Camaro,0
+167,70,2014,Honda,Civic,0
