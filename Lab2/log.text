@@ -1,0 +1,989 @@
+[Jiayi.Chen64@sol25 CISC3140-Lab]$ git submodule add -f https://gist.github.com/katychuang/d66a59b6db4e59c16efd4c42ad411f8e.git data_lab2
+Cloning into 'data_lab2'...
+remote: Enumerating objects: 9, done.
+remote: Total 9 (delta 0), reused 0 (delta 0), pack-reused 9
+Unpacking objects: 100% (9/9), done.
+[Jiayi.Chen64@sol25 CISC3140-Lab]$ ls
+data_lab1  data_lab2  Lab0  Lab1  Lab2  Makefile  README.md
+
+
+
+
+[Jiayi.Chen64@sol25 CISC3140-Lab]$ sqlite3 lab2.db
+SQLite version 3.7.17 2013-05-20 00:56:22
+Enter ".help" for instructions
+Enter SQL statements terminated with a ";"
+sqlite> DROP TABLE IF EXISTS data_import;
+sqlite> CREATE TABLE data_import (
+   ...> Timestamp DATETIME,
+   ...> Email TEXT,
+   ...> Name TEXT,
+   ...> Year INT,
+   ...> Make TEXT,
+   ...> Model TEXT,
+   ...> Car_ID INT,
+   ...> Judge_ID TEXT,
+   ...> Judge_Name TEXT,
+   ...> Racer_Turbo INT,
+   ...> Racer_Supercharged INT,
+   ...> Racer_Performance INT,
+   ...> Racer_Horsepower INT,
+   ...> Car_Overall INT,
+   ...> Engine_Modifications INT,
+   ...> Engine_Performance INT,
+   ...> Engine_Chrome INT,
+   ...> Engine_Detailing INT,
+   ...> Engine_Cleanliness INT,
+   ...> Body_Frame_Undercarriage INT,
+   ...> Body_Frame_Suspension INT,
+   ...> Body_Frame_Chrome INT,
+   ...> Body_Frame_Detailing INT,
+   ...> Body_Frame_Cleanliness INT,
+   ...> Mods_Paint INT,
+   ...> Mods_Body INT,
+   ...> Mods_Wrap INT,
+   ...> Mods_Rims INT,
+   ...> Mods_Interior INT,
+   ...> Mods_Other INT,
+   ...> Mods_ICE INT,
+   ...> Mods_Aftermarket INT,
+   ...> Mods_WIP INT,
+   ...> Mods_Overall INT
+   ...> );
+sqlite> .mode csv
+sqlite> .import data_lab2/data.csv data_import
+sqlite> .headers on
+sqlite> .mode csv
+sqlite> .output data_import.csv
+sqlite> SELECT * FROM data_import;
+sqlite> .quit
+[Jiayi.Chen64@sol25 CISC3140-Lab]$ ls
+data_import.csv  data_lab1  data_lab2  Lab0  Lab1  Lab2  lab2.db  Makefile  README.md
+[Jiayi.Chen64@sol25 CISC3140-Lab]$ vim data_import.csv
+[Jiayi.Chen64@sol25 CISC3140-Lab]$ git add -f data_import.csv
+[Jiayi.Chen64@sol25 CISC3140-Lab]$ git commit -m "Import the sample data into these tables in an SQLite3 database"
+[main b0dbfbc] Import the sample data into these tables in an SQLite3 database
+ 1 file changed, 169 insertions(+)
+ create mode 100644 data_import.csv
+[Jiayi.Chen64@sol25 CISC3140-Lab]$ git push
+warning: push.default is unset; its implicit value is changing in
+Git 2.0 from 'matching' to 'simple'. To squelch this message
+and maintain the current behavior after the default changes, use:
+
+  git config --global push.default matching
+
+To squelch this message and adopt the new behavior now, use:
+
+  git config --global push.default simple
+
+See 'git help config' and search for 'push.default' for further information.
+(the 'simple' mode was introduced in Git 1.7.11. Use the similar mode
+'current' instead of 'simple' if you sometimes use older versions of Git)
+
+Counting objects: 4, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 7.24 KiB | 0 bytes/s, done.
+Total 3 (delta 1), reused 0 (delta 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To git@github.com:kychennn/CISC3140-Lab.git
+   8414891..b0dbfbc  main -> main
+[Jiayi.Chen64@sol25 CISC3140-Lab]$ vim data_import.csv
+[Jiayi.Chen64@sol25 CISC3140-Lab]$ git add -f data_import.csv
+[Jiayi.Chen64@sol25 CISC3140-Lab]$ git commit -m "Import the sample data into these tables in an SQLite3 database"
+[main 83f7f96] Import the sample data into these tables in an SQLite3 database
+ 1 file changed, 1 deletion(-)
+[Jiayi.Chen64@sol25 CISC3140-Lab]$ git push
+warning: push.default is unset; its implicit value is changing in
+Git 2.0 from 'matching' to 'simple'. To squelch this message
+and maintain the current behavior after the default changes, use:
+
+  git config --global push.default matching
+
+To squelch this message and adopt the new behavior now, use:
+
+  git config --global push.default simple
+
+See 'git help config' and search for 'push.default' for further information.
+(the 'simple' mode was introduced in Git 1.7.11. Use the similar mode
+'current' instead of 'simple' if you sometimes use older versions of Git)
+
+Counting objects: 5, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 331 bytes | 0 bytes/s, done.
+Total 3 (delta 2), reused 0 (delta 0)
+remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+To git@github.com:kychennn/CISC3140-Lab.git
+   b0dbfbc..83f7f96  main -> main
+[Jiayi.Chen64@sol25 CISC3140-Lab]$ sqlite3 lab2.db
+SQLite version 3.7.17 2013-05-20 00:56:22
+Enter ".help" for instructions
+Enter SQL statements terminated with a ";"
+sqlite> .table
+data_import
+sqlite> DROP TABLE IF EXISTS Cars;
+sqlite> CREATE TABLE Cars(
+   ...> Car_ID INT PRIMARY KEY,
+   ...> Year INT,
+   ...> Make TEXT,
+   ...> Model TEXT,
+   ...> Name TEXT,
+   ...> Email TEXT
+   ...> );
+sqlite> INSERT INTO Cars (Car_ID, Year, Make, Model, Name, Email) SELECT Car_ID, Year, Make, Model, Name, Email
+   ...> FROM data_import WHERE 1;
+sqlite> .headers on
+sqlite> .mode csv
+sqlite> .output Cars.csv
+sqlite> SELECT * FROM Cars;
+sqlite> .quit
+[Jiayi.Chen64@sol25 CISC3140-Lab]$ ls
+Cars.csv  data_import.csv  data_lab1  data_lab2  Lab0  Lab1  Lab2  lab2.db  Makefile  README.md
+[Jiayi.Chen64@sol25 CISC3140-Lab]$ vim Cars.csv
+[Jiayi.Chen64@sol25 CISC3140-Lab]$ git add -f Cars.csv
+[Jiayi.Chen64@sol25 CISC3140-Lab]$ git commit -m "Cars table with primary key Car_ID and contains car information such as Year, Make, Model as well as owner information"
+[main cd72366] Cars table with primary key Car_ID and contains car information such as Year, Make, Model as well as owner information
+ 1 file changed, 168 insertions(+)
+ create mode 100644 Cars.csv
+[Jiayi.Chen64@sol25 CISC3140-Lab]$ git push
+warning: push.default is unset; its implicit value is changing in
+Git 2.0 from 'matching' to 'simple'. To squelch this message
+and maintain the current behavior after the default changes, use:
+
+  git config --global push.default matching
+
+To squelch this message and adopt the new behavior now, use:
+
+  git config --global push.default simple
+
+See 'git help config' and search for 'push.default' for further information.
+(the 'simple' mode was introduced in Git 1.7.11. Use the similar mode
+'current' instead of 'simple' if you sometimes use older versions of Git)
+
+Counting objects: 4, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 4.58 KiB | 0 bytes/s, done.
+Total 3 (delta 1), reused 0 (delta 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To git@github.com:kychennn/CISC3140-Lab.git
+   83f7f96..cd72366  main -> main
+[Jiayi.Chen64@sol25 CISC3140-Lab]$ sqlite3 lab2.db
+SQLite version 3.7.17 2013-05-20 00:56:22
+Enter ".help" for instructions
+Enter SQL statements terminated with a ";"
+sqlite> .table
+Cars         data_import
+sqlite> .mode csv
+sqlite> .output Lab2/Cars.csv
+sqlite> SELECT * FROM Cars;
+sqlite> .quit
+[Jiayi.Chen64@sol25 CISC3140-Lab]$ cd Lab2
+[Jiayi.Chen64@sol25 Lab2]$ ls
+Cars.csv  README.md
+[Jiayi.Chen64@sol25 Lab2]$ git add -f Cars.csv
+[Jiayi.Chen64@sol25 Lab2]$ git commit -m "Cars table with primary key Car_ID and contains car information such as Year, Make, Model as well as owner information"
+[main 8e6493b] Cars table with primary key Car_ID and contains car information such as Year, Make, Model as well as owner information
+ 1 file changed, 168 insertions(+)
+ create mode 100644 Lab2/Cars.csv
+[Jiayi.Chen64@sol25 Lab2]$ git push
+warning: push.default is unset; its implicit value is changing in
+Git 2.0 from 'matching' to 'simple'. To squelch this message
+and maintain the current behavior after the default changes, use:
+
+  git config --global push.default matching
+
+To squelch this message and adopt the new behavior now, use:
+
+  git config --global push.default simple
+
+See 'git help config' and search for 'push.default' for further information.
+(the 'simple' mode was introduced in Git 1.7.11. Use the similar mode
+'current' instead of 'simple' if you sometimes use older versions of Git)
+
+Counting objects: 5, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 399 bytes | 0 bytes/s, done.
+Total 3 (delta 1), reused 0 (delta 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To git@github.com:kychennn/CISC3140-Lab.git
+   cd72366..8e6493b  main -> main
+[Jiayi.Chen64@sol25 Lab2]$ cd ~~
+-bash: cd: ~~: No such file or directory
+[Jiayi.Chen64@sol25 Lab2]$ cd ~
+[Jiayi.Chen64@sol25 ~]$ cd CISC3140-Lab
+[Jiayi.Chen64@sol25 CISC3140-Lab]$ git rm Cars.csv
+rm 'Cars.csv'
+[Jiayi.Chen64@sol25 CISC3140-Lab]$ rm Cars.csv
+rm: cannot remove ‘Cars.csv’: No such file or directory
+[Jiayi.Chen64@sol25 CISC3140-Lab]$ ls
+data_import.csv  data_lab1  data_lab2  Lab0  Lab1  Lab2  lab2.db  Makefile  README.md
+[Jiayi.Chen64@sol25 CISC3140-Lab]$ git status
+# On branch main
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#	deleted:    Cars.csv
+#
+[Jiayi.Chen64@sol25 CISC3140-Lab]$ ls
+data_import.csv  data_lab1  data_lab2  Lab0  Lab1  Lab2  lab2.db  Makefile  README.md
+[Jiayi.Chen64@sol25 CISC3140-Lab]$ git status
+# On branch main
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#	deleted:    Cars.csv
+#
+[Jiayi.Chen64@sol25 CISC3140-Lab]$ git commit -m "move to Lab2 file"
+[main 2f63d3f] move to Lab2 file
+ 1 file changed, 168 deletions(-)
+ delete mode 100644 Cars.csv
+[Jiayi.Chen64@sol25 CISC3140-Lab]$ ls
+data_import.csv  data_lab1  data_lab2  Lab0  Lab1  Lab2  lab2.db  Makefile  README.md
+[Jiayi.Chen64@sol25 CISC3140-Lab]$ git status
+# On branch main
+# Your branch is ahead of 'origin/main' by 1 commit.
+#   (use "git push" to publish your local commits)
+#
+nothing to commit, working directory clean
+[Jiayi.Chen64@sol25 CISC3140-Lab]$ git push
+warning: push.default is unset; its implicit value is changing in
+Git 2.0 from 'matching' to 'simple'. To squelch this message
+and maintain the current behavior after the default changes, use:
+
+  git config --global push.default matching
+
+To squelch this message and adopt the new behavior now, use:
+
+  git config --global push.default simple
+
+See 'git help config' and search for 'push.default' for further information.
+(the 'simple' mode was introduced in Git 1.7.11. Use the similar mode
+'current' instead of 'simple' if you sometimes use older versions of Git)
+
+Counting objects: 3, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (2/2), 228 bytes | 0 bytes/s, done.
+Total 2 (delta 1), reused 0 (delta 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To git@github.com:kychennn/CISC3140-Lab.git
+   8e6493b..2f63d3f  main -> main
+[Jiayi.Chen64@sol25 CISC3140-Lab]$ sqlite3 lab2.db
+SQLite version 3.7.17 2013-05-20 00:56:22
+Enter ".help" for instructions
+Enter SQL statements terminated with a ";"
+sqlite> DROP TABLE IF EXISTS Judges;
+sqlite> CREATE TABLE Judges(
+   ...> Timestamp DATETIME,
+   ...> Judge_ID TEXT,
+   ...> Judge_Name TEXT
+   ...> );
+sqlite> DROP TABLE IF EXISTS Judges;
+sqlite> .table
+Cars         data_import
+sqlite> CREATE TABLE Judges(
+   ...> Judge_ID TEXT,
+   ...> Judge_Name TEXT
+   ...> );
+sqlite> INSERT INTO Judges (Judge_ID, Judge_Name) SELECT Judge_ID, Judge_Name
+   ...> FROM data_import WHERE 1;
+sqlite> .headers on
+sqlite> .mode csv
+sqlite> .output Lab2/ Judges.csv
+Error: unknown command or invalid arguments:  "output". Enter ".help" for help
+sqlite> .output Lab2/Judges.csv
+sqlite> SELECT * FROM Judges;
+sqlite> .quit
+[Jiayi.Chen64@sol25 CISC3140-Lab]$ cd Lab2
+[Jiayi.Chen64@sol25 Lab2]$ ls
+Cars.csv  Judges.csv  README.md
+[Jiayi.Chen64@sol25 Lab2]$ git add -f Judges.csv
+[Jiayi.Chen64@sol25 Lab2]$ git commit -m"Judges table that contains Judge_ID, Judge Name"
+[main a9cdc5f] Judges table that contains Judge_ID, Judge Name
+ 1 file changed, 169 insertions(+)
+ create mode 100644 Lab2/Judges.csv
+[Jiayi.Chen64@sol25 Lab2]$ git push
+warning: push.default is unset; its implicit value is changing in
+Git 2.0 from 'matching' to 'simple'. To squelch this message
+and maintain the current behavior after the default changes, use:
+
+  git config --global push.default matching
+
+To squelch this message and adopt the new behavior now, use:
+
+  git config --global push.default simple
+
+See 'git help config' and search for 'push.default' for further information.
+(the 'simple' mode was introduced in Git 1.7.11. Use the similar mode
+'current' instead of 'simple' if you sometimes use older versions of Git)
+
+Counting objects: 6, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (4/4), 638 bytes | 0 bytes/s, done.
+Total 4 (delta 1), reused 0 (delta 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To git@github.com:kychennn/CISC3140-Lab.git
+   2f63d3f..a9cdc5f  main -> main
+[Jiayi.Chen64@sol25 Lab2]$ vim Judges.csv
+[Jiayi.Chen64@sol25 Lab2]$ git add -f Judges.csv
+[Jiayi.Chen64@sol25 Lab2]$ git commit -m"Judges table that contains Judge_ID, Judge Name"
+[main 686317f] Judges table that contains Judge_ID, Judge Name
+ 1 file changed, 1 deletion(-)
+[Jiayi.Chen64@sol25 Lab2]$ git push
+warning: push.default is unset; its implicit value is changing in
+Git 2.0 from 'matching' to 'simple'. To squelch this message
+and maintain the current behavior after the default changes, use:
+
+  git config --global push.default matching
+
+To squelch this message and adopt the new behavior now, use:
+
+  git config --global push.default simple
+
+See 'git help config' and search for 'push.default' for further information.
+(the 'simple' mode was introduced in Git 1.7.11. Use the similar mode
+'current' instead of 'simple' if you sometimes use older versions of Git)
+
+Counting objects: 7, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (4/4), 426 bytes | 0 bytes/s, done.
+Total 4 (delta 2), reused 0 (delta 0)
+remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+To git@github.com:kychennn/CISC3140-Lab.git
+   a9cdc5f..686317f  main -> main
+[Jiayi.Chen64@sol25 Lab2]$ cd ~~
+-bash: cd: ~~: No such file or directory
+[Jiayi.Chen64@sol25 Lab2]$ cd ~
+[Jiayi.Chen64@sol25 ~]$ cd CISC3140-Lab
+[Jiayi.Chen64@sol25 CISC3140-Lab]$ sqlite3 lab2.db
+SQLite version 3.7.17 2013-05-20 00:56:22
+Enter ".help" for instructions
+Enter SQL statements terminated with a ";"
+sqlite> .table
+Cars         Judges       data_import
+sqlite> DROP TABLE IF EXISTS Car_Score;
+sqlite> CREATE TABLE Car_Score(
+   ...> Car_ID INT PRIMARY KEY,
+   ...> Car_Score INT
+   ...> );
+sqlite> .schema Car_Score
+CREATE TABLE Car_Score(
+Car_ID INT PRIMARY KEY,
+Car_Score INT
+);
+sqlite> INSERT INTO Car_Score (Car_ID, Car_Score) SELECT Car_ID, SUM(Racer_Turbo + Racer_Supercharged + Racer_Performance + Racer_Horsepower + Car_Overall + Engine_Modifications + Engine_Performance + Engine_Chrome + Engine_Detailing + Engine_Cleanliness + Body_Frame_Undercarriage + Body_Frame_Suspension + Body_Frame_Chrome + Body_Frame_Detailing + Body_Frame_Cleanliness + Mods_Paint + Mods_Body + Mods_Wrap + Mods_Rims + Mods_Interior + Mods_Other + Mods_ICE + Mods_Aftermarket + Mods_WIP + Mods_Overall)
+   ...> FROM data_import
+   ...> GROUP  BY Car_ID;
+sqlite> .headers on
+sqlite> .mode csv
+sqlite> .output Lab2/Car_Score.csv
+sqlite> SELECT * FROM Car_Score;
+sqlite> .quit
+[Jiayi.Chen64@sol25 CISC3140-Lab]$ cd Lab2
+[Jiayi.Chen64@sol25 Lab2]$ ls
+Car_Score.csv  Cars.csv  Judges.csv  README.md
+[Jiayi.Chen64@sol25 Lab2]$ vim Car_Score.csv
+[Jiayi.Chen64@sol25 Lab2]$ rm Car_Score.csv
+[Jiayi.Chen64@sol25 Lab2]$ ls
+Cars.csv  Judges.csv  README.md
+[Jiayi.Chen64@sol25 Lab2]$ git status
+# On branch main
+nothing to commit, working directory clean
+[Jiayi.Chen64@sol25 Lab2]$ cd ~
+[Jiayi.Chen64@sol25 ~]$ cd CISC3140-Lab
+[Jiayi.Chen64@sol25 CISC3140-Lab]$ sqlite3 lab2.db
+SQLite version 3.7.17 2013-05-20 00:56:22
+Enter ".help" for instructions
+Enter SQL statements terminated with a ";"
+sqlite> .table
+Car_Score    Cars         Judges       data_import
+sqlite> DROP TABLE IF EXISTS Car_Score;
+sqlite> .table
+Cars         Judges       data_import
+sqlite> CREATE TABLE Car_Score(
+   ...> Car_ID INT PRIMARY KEY,
+   ...> score INT
+   ...> );
+sqlite> INSERT INTO Car_Score (Car_ID, score) SELECT Car_ID, SUM(Racer_Turbo + Racer_Supercharged + Racer_Performance + Racer_Horsepower + Car_Overall + Engine_Modifications + Engine_Performance + Engine_Chrome + Engine_Detailing + Engine_Cleanliness + Body_Frame_Undercarriage + Body_Frame_Suspension + Body_Frame_Chrome + Body_Frame_Detailing + Body_Frame_Cleanliness + Mods_Paint + Mods_Body + Mods_Wrap + Mods_Rims + Mods_Interior + Mods_Other + Mods_ICE + Mods_Aftermarket + Mods_WIP + Mods_Overall)
+   ...> FROM data_import
+   ...> GROUP  BY rowid;
+sqlite> DROP TABLE IF EXISTS Car_Score;
+sqlite> .table
+Cars         Judges       data_import
+sqlite> CREATE TABLE Car_Score(
+   ...> Car_ID INT PRIMARY KEY,
+   ...> score INT
+   ...> );
+sqlite> INSERT INTO Car_Score SELECT Car_ID, SUM(Racer_Turbo + Racer_Supercharged + Racer_Performance + Racer_Horsepower + Car_Overall + Engine_Modifications + Engine_Performance + Engine_Chrome + Engine_Detailing + Engine_Cleanliness + Body_Frame_Undercarriage + Body_Frame_Suspension + Body_Frame_Chrome + Body_Frame_Detailing + Body_Frame_Cleanliness + Mods_Paint + Mods_Body + Mods_Wrap + Mods_Rims + Mods_Interior + Mods_Other + Mods_ICE + Mods_Aftermarket + Mods_WIP + Mods_Overall)
+   ...> FROM data_import
+   ...> GROUP  BY rowid;
+sqlite> .headers on
+sqlite> .mode csv
+sqlite> .output Lab2/Car_Score.csv
+sqlite> SELECT * FROM Car_Score;
+sqlite> .quit
+[Jiayi.Chen64@sol25 CISC3140-Lab]$ cd Lab2
+[Jiayi.Chen64@sol25 Lab2]$ ls
+Car_Score.csv  Cars.csv  Judges.csv  README.md
+[Jiayi.Chen64@sol25 Lab2]$ vim Car_Score.csv
+[Jiayi.Chen64@sol25 Lab2]$ git add -f Car_Score.csv
+[Jiayi.Chen64@sol25 Lab2]$ git commit -m"Car_Score table that contains the scores for each car with Car_ID as the primary key"
+[main a7f5ad8] Car_Score table that contains the scores for each car with Car_ID as the primary key
+ 1 file changed, 168 insertions(+)
+ create mode 100644 Lab2/Car_Score.csv
+[Jiayi.Chen64@sol25 Lab2]$ git push
+warning: push.default is unset; its implicit value is changing in
+Git 2.0 from 'matching' to 'simple'. To squelch this message
+and maintain the current behavior after the default changes, use:
+
+  git config --global push.default matching
+
+To squelch this message and adopt the new behavior now, use:
+
+  git config --global push.default simple
+
+See 'git help config' and search for 'push.default' for further information.
+(the 'simple' mode was introduced in Git 1.7.11. Use the similar mode
+'current' instead of 'simple' if you sometimes use older versions of Git)
+
+Counting objects: 6, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (4/4), 995 bytes | 0 bytes/s, done.
+Total 4 (delta 1), reused 0 (delta 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To git@github.com:kychennn/CISC3140-Lab.git
+   686317f..a7f5ad8  main -> main
+[Jiayi.Chen64@sol25 Lab2]$ touch lab2.sql
+[Jiayi.Chen64@sol25 Lab2]$ vim lab2.sql
+[Jiayi.Chen64@sol25 Lab2]$ git add -f lab2.sql
+[Jiayi.Chen64@sol25 Lab2]$ git commit -m "question 2 save in *.sql file"
+[main 4c9345f] question 2 save in *.sql file
+ 1 file changed, 135 insertions(+)
+ create mode 100644 Lab2/lab2.sql
+[Jiayi.Chen64@sol25 Lab2]$ git push
+warning: push.default is unset; its implicit value is changing in
+Git 2.0 from 'matching' to 'simple'. To squelch this message
+and maintain the current behavior after the default changes, use:
+
+  git config --global push.default matching
+
+To squelch this message and adopt the new behavior now, use:
+
+  git config --global push.default simple
+
+See 'git help config' and search for 'push.default' for further information.
+(the 'simple' mode was introduced in Git 1.7.11. Use the similar mode
+'current' instead of 'simple' if you sometimes use older versions of Git)
+
+Counting objects: 6, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (4/4), 1.09 KiB | 0 bytes/s, done.
+Total 4 (delta 2), reused 0 (delta 0)
+remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+To git@github.com:kychennn/CISC3140-Lab.git
+   a7f5ad8..4c9345f  main -> main
+[Jiayi.Chen64@sol25 Lab2]$ ls
+Car_Score.csv  Cars.csv  Judges.csv  lab2.sql  README.md
+[Jiayi.Chen64@sol25 Lab2]$ rm
+rm: missing operand
+Try 'rm --help' for more information.
+[Jiayi.Chen64@sol25 Lab2]$ rm Car_Score.csv
+[Jiayi.Chen64@sol25 Lab2]$ git status
+# On branch main
+# Changes not staged for commit:
+#   (use "git add/rm <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	deleted:    Car_Score.csv
+#
+no changes added to commit (use "git add" and/or "git commit -a")
+[Jiayi.Chen64@sol25 Lab2]$ git rm Car_Score.csv
+rm 'Lab2/Car_Score.csv'
+[Jiayi.Chen64@sol25 Lab2]$ git commit -m"redo 2.3"
+[main 5ba2300] redo 2.3
+ 1 file changed, 168 deletions(-)
+ delete mode 100644 Lab2/Car_Score.csv
+[Jiayi.Chen64@sol25 Lab2]$ git push
+warning: push.default is unset; its implicit value is changing in
+Git 2.0 from 'matching' to 'simple'. To squelch this message
+and maintain the current behavior after the default changes, use:
+
+  git config --global push.default matching
+
+To squelch this message and adopt the new behavior now, use:
+
+  git config --global push.default simple
+
+See 'git help config' and search for 'push.default' for further information.
+(the 'simple' mode was introduced in Git 1.7.11. Use the similar mode
+'current' instead of 'simple' if you sometimes use older versions of Git)
+
+Counting objects: 5, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 280 bytes | 0 bytes/s, done.
+Total 3 (delta 2), reused 0 (delta 0)
+remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+To git@github.com:kychennn/CISC3140-Lab.git
+   4c9345f..5ba2300  main -> main
+[Jiayi.Chen64@sol25 Lab2]$ vim lab2.sql
+[Jiayi.Chen64@sol25 Lab2]$ cd ~
+[Jiayi.Chen64@sol25 ~]$ cd CISC3140-Lab
+[Jiayi.Chen64@sol25 CISC3140-Lab]$ sqlite3 lab2.db
+SQLite version 3.7.17 2013-05-20 00:56:22
+Enter ".help" for instructions
+Enter SQL statements terminated with a ";"
+sqlite> .table
+Car_Score    Cars         Judges       data_import
+sqlite> DROP TABLE IF EXISTS Car_Score;
+sqlite> CREATE TABLE Car_Score(
+   ...> Car_ID INT PRIMARY KEY,
+   ...> Racer_Turbo INT,
+   ...> Racer_Supercharged INT,
+   ...> Racer_Performance INT,
+   ...> Racer_Horsepower INT,
+   ...> Car_Overall INT,
+   ...> Engine_Modifications INT,
+   ...> Engine_Performance INT,
+   ...> Engine_Chrome INT, 
+   ...> Engine_Detailing INT,
+   ...> Engine_Cleanliness INT,
+   ...> Body_Frame_Undercarriage INT,
+   ...> Body_Frame_Suspension INT,
+   ...> Body_Frame_Chrome INT,
+   ...> Body_Frame_Detailing INT,
+   ...> Body_Frame_Cleanliness INT,
+   ...> Mods_Paint INT,
+   ...> Mods_Body INT,
+   ...> Mods_Wrap INT,
+   ...> Mods_Rims INT,
+   ...> Mods_Interior INT,
+   ...> Mods_Other INT,
+   ...> Mods_ICE INT,
+   ...> Mods_Aftermarket INT,
+   ...> Mods_WIP INT,
+   ...> Mods_Overall INT
+   ...> );
+sqlite> INSERT INTO Car_Score (Car_ID, Racer_Turbo, Racer_Supercharged, Racer_Performance, Racer_Horsepower, Car_Overall, Engine_Modifications, Engine_Performance, Engine_Chrome, Engine_Detailing, Engine_Cleanliness, Body_Frame_Undercarriage, Body_Frame_Suspension, Body_Frame_Chrome, Body_Frame_Detailing, Body_Frame_Cleanliness, Mods_Paint, Mods_Body, Mods_Wrap, Mods_Rims, Mods_Interior, Mods_Other, Mods_ICE, Mods_Aftermarket, Mods_WIP, Mods_Overall) SELECT Car_ID, Racer_Turbo, Racer_Supercharged, Racer_Performance, Racer_Horsepower, Car_Overall, Engine_Modifications, Engine_Performance, Engine_Chrome, Engine_Detailing, Engine_Cleanliness, Body_Frame_Undercarriage, Body_Frame_Suspension, Body_Frame_Chrome, Body_Frame_Detailing, Body_Frame_Cleanliness, Mods_Paint, Mods_Body, Mods_Wrap, Mods_Rims, Mods_Interior, Mods_Other, Mods_ICE, Mods_Aftermarket, Mods_WIP, Mods_Overall
+   ...> FROM _csv_import WHERE 1;
+Error: no such table: _csv_import
+sqlite> INSERT INTO Car_Score (Car_ID, Racer_Turbo, Racer_Supercharged, Racer_Performance, Racer_Horsepower, Car_Overall, Engine_Modifications, Engine_Performance, Engine_Chrome, Engine_Detailing, Engine_Cleanliness, Body_Frame_Undercarriage, Body_Frame_Suspension, Body_Frame_Chrome, Body_Frame_Detailing, Body_Frame_Cleanliness, Mods_Paint, Mods_Body, Mods_Wrap, Mods_Rims, Mods_Interior, Mods_Other, Mods_ICE, Mods_Aftermarket, Mods_WIP, Mods_Overall) SELECT Car_ID, Racer_Turbo, Racer_Supercharged, Racer_Performance, Racer_Horsepower, Car_Overall, Engine_Modifications, Engine_Performance, Engine_Chrome, Engine_Detailing, Engine_Cleanliness, Body_Frame_Undercarriage, Body_Frame_Suspension, Body_Frame_Chrome, Body_Frame_Detailing, Body_Frame_Cleanliness, Mods_Paint, Mods_Body, Mods_Wrap, Mods_Rims, Mods_Interior, Mods_Other, Mods_ICE, Mods_Aftermarket, Mods_WIP, Mods_Overall
+   ...> FROM data_import WHERE 1;
+sqlite> .headers on
+sqlite> .mode csv
+sqlite> .output Lab2/Car_Score.csv
+sqlite> SELECT * FROM Car_Score;
+sqlite> .quit
+[Jiayi.Chen64@sol25 CISC3140-Lab]$ cd lab2
+-bash: cd: lab2: No such file or directory
+[Jiayi.Chen64@sol25 CISC3140-Lab]$ cd Lab2
+[Jiayi.Chen64@sol25 Lab2]$ ls
+Car_Score.csv  Cars.csv  Judges.csv  lab2.sql  README.md
+[Jiayi.Chen64@sol25 Lab2]$ git add -f Car_Score.csv
+[Jiayi.Chen64@sol25 Lab2]$ git commit -m"Car_Score table that contains the scores for each car with Car_ID as the primary key"
+[main 73c0888] Car_Score table that contains the scores for each car with Car_ID as the primary key
+ 1 file changed, 169 insertions(+)
+ create mode 100644 Lab2/Car_Score.csv
+[Jiayi.Chen64@sol25 Lab2]$ git push
+warning: push.default is unset; its implicit value is changing in
+Git 2.0 from 'matching' to 'simple'. To squelch this message
+and maintain the current behavior after the default changes, use:
+
+  git config --global push.default matching
+
+To squelch this message and adopt the new behavior now, use:
+
+  git config --global push.default simple
+
+See 'git help config' and search for 'push.default' for further information.
+(the 'simple' mode was introduced in Git 1.7.11. Use the similar mode
+'current' instead of 'simple' if you sometimes use older versions of Git)
+
+Counting objects: 6, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (4/4), 2.32 KiB | 0 bytes/s, done.
+Total 4 (delta 2), reused 0 (delta 0)
+remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+To git@github.com:kychennn/CISC3140-Lab.git
+   5ba2300..73c0888  main -> main
+[Jiayi.Chen64@sol25 Lab2]$ vim Car_Score.csv
+[Jiayi.Chen64@sol25 Lab2]$ git add -f Car_Score.csv
+[Jiayi.Chen64@sol25 Lab2]$ git commit -m"Car_Score table that contains the scores for each car with Car_ID as the primary key"
+[main 7cceae4] Car_Score table that contains the scores for each car with Car_ID as the primary key
+ 1 file changed, 1 deletion(-)
+[Jiayi.Chen64@sol25 Lab2]$ git push
+warning: push.default is unset; its implicit value is changing in
+Git 2.0 from 'matching' to 'simple'. To squelch this message
+and maintain the current behavior after the default changes, use:
+
+  git config --global push.default matching
+
+To squelch this message and adopt the new behavior now, use:
+
+  git config --global push.default simple
+
+See 'git help config' and search for 'push.default' for further information.
+(the 'simple' mode was introduced in Git 1.7.11. Use the similar mode
+'current' instead of 'simple' if you sometimes use older versions of Git)
+
+Counting objects: 7, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (4/4), 403 bytes | 0 bytes/s, done.
+Total 4 (delta 3), reused 0 (delta 0)
+remote: Resolving deltas: 100% (3/3), completed with 3 local objects.
+To git@github.com:kychennn/CISC3140-Lab.git
+   73c0888..7cceae4  main -> main
+[Jiayi.Chen64@sol25 Lab2]$ git add -f lab2.sql
+[Jiayi.Chen64@sol25 Lab2]$ git commit -m "question 2 save in *.sql file"
+[main 490f2df] question 2 save in *.sql file
+ 1 file changed, 29 insertions(+), 5 deletions(-)
+[Jiayi.Chen64@sol25 Lab2]$ git push
+warning: push.default is unset; its implicit value is changing in
+Git 2.0 from 'matching' to 'simple'. To squelch this message
+and maintain the current behavior after the default changes, use:
+
+  git config --global push.default matching
+
+To squelch this message and adopt the new behavior now, use:
+
+  git config --global push.default simple
+
+See 'git help config' and search for 'push.default' for further information.
+(the 'simple' mode was introduced in Git 1.7.11. Use the similar mode
+'current' instead of 'simple' if you sometimes use older versions of Git)
+
+Counting objects: 7, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (4/4), 682 bytes | 0 bytes/s, done.
+Total 4 (delta 3), reused 0 (delta 0)
+remote: Resolving deltas: 100% (3/3), completed with 3 local objects.
+To git@github.com:kychennn/CISC3140-Lab.git
+   7cceae4..490f2df  main -> main
+[Jiayi.Chen64@sol25 Lab2]$ cd ~
+[Jiayi.Chen64@sol25 ~]$ cd CISC3140-Lab
+[Jiayi.Chen64@sol25 CISC3140-Lab]$ sqlite3 lab2.db
+SQLite version 3.7.17 2013-05-20 00:56:22
+Enter ".help" for instructions
+Enter SQL statements terminated with a ";"
+sqlite> .table
+Car_Score    Cars         Judges       
+
+
+
+
+
+sqlite> DROP TABLE IF EXISTS Total_Score;
+sqlite> CREATE TABLE Total_Score (
+   ...> Car_ID INT,
+   ...> Year INT,
+   ...> Make TEXT,
+   ...> Model TEXT,
+   ...> Score INT
+   ...> );
+sqlite> INSERT INTO Total_Score (Car_ID, Year, Make, Model, Score) SELECT Car_ID, Year, Make, Model, SUM(Racer_Turbo + Racer_Supercharged + Racer_Performance + Racer_Horsepower + Car_Overall + Engine_Modifications + Engine_Performance + Engine_Chrome + Engine_Detailing + Engine_Cleanliness + Body_Frame_Undercarriage + Body_Frame_Suspension + Body_Frame_Chrome + Body_Frame_Detailing + Body_Frame_Cleanliness + Mods_Paint + Mods_Body + Mods_Wrap + Mods_Rims + Mods_Interior + Mods_Other + Mods_ICE + Mods_Aftermarket + Mods_WIP + Mods_Overall)
+   ...> FROM data_import
+   ...> GROUP BY rowid
+   ...> ;
+sqlite> 
+sqlite> DROP TABLE IF EXISTS Rank_Temp;
+sqlite> CREATE TABLE Rank_Temp (
+   ...> Car_ID INT,
+   ...> Year INT,
+   ...> Make TEXT,
+   ...> Model TEXT,
+   ...> Score INT
+   ...> );
+sqlite> INSERT INTO Rank_Temp (Car_ID, Year, Make, Model, Score) SELECT Car_ID, Year, Make, Model, Score
+   ...> FROM Total_Score
+   ...> ORDER BY Score DESC;
+sqlite> DROP TABLE IF EXISTS Rank;
+sqlite> CREATE TABLE Rank (
+   ...> Rank INT,
+   ...> Car_ID INT,
+   ...> Year INT,
+   ...> Make TEXT,
+   ...> Model TEXT,
+   ...> Score INT
+   ...> );
+sqlite> INSERT INTO Rank(Rank, Car_ID, Year, Make, Model, Score) SELECT rowid, Car_ID, Year, Make, Model, Score FROM Rank_Temp;
+sqlite> .headers on
+sqlite> .mode csv
+sqlite> .output Lab2/extract1.csv
+sqlite> SELECT * FROM Rank;
+sqlite> .quit
+[Jiayi.Chen64@sol25 CISC3140-Lab]$ cd Lab2
+[Jiayi.Chen64@sol25 Lab2]$ ls
+Car_Score.csv  Cars.csv  extract1.csv  Judges.csv  lab2.sql  README.md
+[Jiayi.Chen64@sol25 Lab2]$ vim extract1.csv
+[Jiayi.Chen64@sol25 Lab2]$ git add -f extract1.csv
+[Jiayi.Chen64@sol25 Lab2]$ git commit -m "Export the results a file named extract1.csv"
+[main 095a7f1] Export the results a file named extract1.csv
+ 1 file changed, 169 insertions(+)
+ create mode 100644 Lab2/extract1.csv
+[Jiayi.Chen64@sol25 Lab2]$ git push
+warning: push.default is unset; its implicit value is changing in
+Git 2.0 from 'matching' to 'simple'. To squelch this message
+and maintain the current behavior after the default changes, use:
+
+  git config --global push.default matching
+
+To squelch this message and adopt the new behavior now, use:
+
+  git config --global push.default simple
+
+See 'git help config' and search for 'push.default' for further information.
+(the 'simple' mode was introduced in Git 1.7.11. Use the similar mode
+'current' instead of 'simple' if you sometimes use older versions of Git)
+
+Counting objects: 6, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (4/4), 2.17 KiB | 0 bytes/s, done.
+Total 4 (delta 2), reused 0 (delta 0)
+remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+To git@github.com:kychennn/CISC3140-Lab.git
+   490f2df..095a7f1  main -> main
+[Jiayi.Chen64@sol25 Lab2]$ vim lab2.sql
+[Jiayi.Chen64@sol25 Lab2]$ git add -f lab2.sql
+[Jiayi.Chen64@sol25 Lab2]$ git commit -m "Present the list in descending order using the total column"
+[main b0c65e4] Present the list in descending order using the total column
+ 1 file changed, 55 insertions(+)
+[Jiayi.Chen64@sol25 Lab2]$ git push
+warning: push.default is unset; its implicit value is changing in
+Git 2.0 from 'matching' to 'simple'. To squelch this message
+and maintain the current behavior after the default changes, use:
+
+  git config --global push.default matching
+
+To squelch this message and adopt the new behavior now, use:
+
+  git config --global push.default simple
+
+See 'git help config' and search for 'push.default' for further information.
+(the 'simple' mode was introduced in Git 1.7.11. Use the similar mode
+'current' instead of 'simple' if you sometimes use older versions of Git)
+
+Counting objects: 7, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (4/4), 927 bytes | 0 bytes/s, done.
+Total 4 (delta 3), reused 0 (delta 0)
+remote: Resolving deltas: 100% (3/3), completed with 3 local objects.
+To git@github.com:kychennn/CISC3140-Lab.git
+   095a7f1..b0c65e4  main -> main
+
+
+
+sqlite> DROP TABLE IF EXISTS Rank_Make;
+sqlite> CREATE TABLE Rank_Make (
+   ...> Rank INT,
+   ...> Car_ID INT,
+   ...> Year INT,
+   ...> Make TEXT,
+   ...> Model TEXT,
+   ...> Score INT
+   ...> );
+sqlite> INSERT INTO Rank_Make(Rank, Car_ID, Year, Make, Model, Score) SELECT Rank, Car_ID, Year, Make, Model, Score 
+   ...> FROM Rank 
+   ...> ORDER BY Make;
+
+sqlite> 
+sqlite> select * from Rank_Make group by Make limit 3;
+163|174|2006|Acura|Rsx|4
+164|197|2010|Audi|A4|2
+150|28|1995|Bmw|318xi|8
+sqlite> SELECT *
+   ...>     FROM (
+   ...>         SELECT *, Rank() 
+   ...>           over (Partition BY Car_Make
+   ...>                 ) AS Rank
+   ...>         FROM Rank
+   ...>         ) rs WHERE Rank <= 3;
+Error: near "(": syntax error
+sqlite> SELECT *
+   ...>     FROM (
+   ...>         SELECT *, Rank() 
+   ...>           over (Partition BY Make
+   ...>                 ORDER BY Rank DESC ) AS Rank
+   ...>         FROM Rank
+   ...>         ) rs WHERE Rank <= 3;
+Error: near "(": syntax error
+sqlite> select *
+   ...> from Rank_Make
+   ...> where (
+   ...>    select count(*) from Rank_Make as f
+   ...>    where f.Make = Rank_Make
+   ...> ) <= 3;
+Error: no such column: Rank_Make
+sqlite> select *
+   ...> from Rank_Make
+   ...> where (
+   ...>    select count(*) from Rank_Make as f
+   ...>    where f.Make = Rank_Make.Make
+   ...> ) <= 3;
+33|218|2010|Chevy|Camaro|64
+55|170|2014|Chevy|Cruze|50
+167|0|2015|Chevy|Camaro|0
+11|216|2007|Chrystler|300|96
+149|42|2001|Dodge|Viper|8
+2|124|2015|Jeep|Wrangler|124
+165|Car_ID|Year|Make|Model|0
+21|57|2015|Scion|Frs|80
+121|235|2013|Scion|Frs|20
+116|100|2006|Volvo|S60r|22
+sqlite> 
+sqlite> select *
+   ...> from Rank_Make
+   ...> where (
+   ...>    select count(*) from Rank_Make as f
+   ...>    where f.Make = Rank_Make.Make and f.Rank <= Rank_Make.Rank
+   ...> ) <= 3;
+4|113|2012|Acura|Tsx sportwagon|116
+6|112|2008|Acura|TL|110
+8|50|2015|Acura|TLX|102
+3|15|2014|Audi|S4|120
+83|18|2015|Audi|S3|38
+98|116|2008|Audi|A4|28
+108|2|2016|Bmw|M2|24
+117|172|2014|Bmw|4|22
+140|111|2007|Bmw|328i|10
+33|218|2010|Chevy|Camaro|64
+55|170|2014|Chevy|Cruze|50
+167|0|2015|Chevy|Camaro|0
+11|216|2007|Chrystler|300|96
+149|42|2001|Dodge|Viper|8
+49|137|2017|Ford|Focus rs|54
+94|120|2014|Ford|Focus st|30
+104|219|2016|Ford|Focus rs|26
+5|83|2014|Honda|Accord|112
+7|65|2009|Honda|Fit|106
+9|31|2007|Honda|Fit|102
+30|30|2012|Hyundai|Celoster|66
+40|38|2017|Hyundai|Elantra sport|62
+95|92|2017|Hyundai|Elantra sport|30
+1|128|2010|Infiniti|G37|128
+68|122|2011|Infiniti|M37s|44
+79|20|2009|Infiniti|G37|38
+2|124|2015|Jeep|Wrangler|124
+31|123|2006|Lexus|Sc430|66
+74|222|2015|Lexus|Is250|40
+146|190|1995|Lexus|Sc300|10
+165|Car_ID|Year|Make|Model|0
+59|52|2007|Mazda|Speed 3|48
+86|78|2015|Mazda|6|36
+105|141|1993|Mazda|Miata|26
+22|25|2012|Mercedes|C250|78
+28|84|2012|Mercedes|Cl63amg|70
+88|17|2016|Mercedes|C43|34
+10|91|2010|Mitsu|Lancer|102
+63|140|1995|Mitsu|Evo8|44
+76|176|2014|Mitsu|Lancer|40
+12|228|2010|Nissan|370|92
+18|161|2012|Nissan|370z|84
+19|3|2011|Nissan|370|84
+21|57|2015|Scion|Frs|80
+121|235|2013|Scion|Frs|20
+24|36|2016|Subaru|WRX|74
+29|33|2015|Subaru|Sti|68
+37|21|2009|Subaru|WRX|62
+43|142|1993|Toyota|Supra|58
+44|110|2011|Toyota|Camry|58
+47|43|2011|Toyota|4 Runner|54
+14|126|2010|Volkswagen|Eos|92
+20|180|2011|Volkswagen|Gti|82
+45|156|2014|Volkswagen|Gli|56
+116|100|2006|Volvo|S60r|22
+sqlite> 
+sqlite> 
+sqlite> 
+sqlite> DROP TABLE IF EXISTS Top_Three;
+sqlite> CREATE TABLE Top_Three (
+   ...> Rank INT,
+   ...> Car_ID INT,
+   ...> Year INT,
+   ...> Make TEXT,
+   ...> Model TEXT,
+   ...> Score INT
+   ...> );
+sqlite> INSERT INTO Top_Three (Rank, Car_ID, Year, Make, Model, Score)
+   ...> select *
+   ...> from Rank_Make
+   ...> where (
+   ...>    select count(*) from Rank_Make as f
+   ...>    where f.Make = Rank_Make.Make and f.Rank <= Rank_Make.Rank
+   ...> ) <= 3;
+sqlite> .headers on
+sqlite> .mode csv
+sqlite> .output Lab2/extract2.csv
+sqlite> SELECT * FROM Top_Three;
+sqlite> .quit
+[Jiayi.Chen64@sol25 CISC3140-Lab]$ cd Lab2
+[Jiayi.Chen64@sol25 Lab2]$ ls
+Car_Score.csv  Cars.csv  extract1.csv  extract2.csv  Judges.csv  lab2.sql  README.md
+[Jiayi.Chen64@sol25 Lab2]$ vim extract2.csv
+[Jiayi.Chen64@sol25 Lab2]$ git add -f extract2.csv
+[Jiayi.Chen64@sol25 Lab2]$ git commit -m "top three by each make"
+[main c71d8e6] top three by each make
+ 1 file changed, 55 insertions(+)
+ create mode 100644 Lab2/extract2.csv
+[Jiayi.Chen64@sol25 Lab2]$ git push
+warning: push.default is unset; its implicit value is changing in
+Git 2.0 from 'matching' to 'simple'. To squelch this message
+and maintain the current behavior after the default changes, use:
+
+  git config --global push.default matching
+
+To squelch this message and adopt the new behavior now, use:
+
+  git config --global push.default simple
+
+See 'git help config' and search for 'push.default' for further information.
+(the 'simple' mode was introduced in Git 1.7.11. Use the similar mode
+'current' instead of 'simple' if you sometimes use older versions of Git)
+
+Counting objects: 6, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (4/4), 1.09 KiB | 0 bytes/s, done.
+Total 4 (delta 2), reused 0 (delta 0)
+remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+To git@github.com:kychennn/CISC3140-Lab.git
+   8173cdf..c71d8e6  main -> main
+
+
+
+
+
+sqlite> DROP TABLE IF EXISTS Judges;
+sqlite> CREATE TABLE Judges(
+   ...> Timestamp DATETIME,
+   ...> Judge_ID TEXT,
+   ...> Judge_Name TEXT
+   ...> );
+sqlite> INSERT INTO Judges (Timestamp, Judge_ID, Judge_Name) SELECT Timestamp, Judge_ID, Judge_Name
+   ...> FROM data_import WHERE 1;
+sqlite> SELECT julianday('now') - julianday('2022-03-07');
+2.18659965274855
+sqlite> SELECT julianday('now') - julianday('2022-03-08');
+1.18673871550709
+sqlite> SELECT julianday('now') - julianday('2021-03-08');
+366.186905509327
+sqlite> SELECT julianday('now') - julianday('2022-03-08 23:00');
+0.229076331015676
+sqlite> UPDATE Judges SET Timestamp = SUBSTR(Timestamp, 5, 4) || "-0" || SUBSTR(Timestamp, 1,1) || "-0" || SUBSTR(Timestamp, 3, 1) || " " || SUBSTR(Timestamp, 10, 2) || ":" || SUBSTR(Timestamp, 13, 2);
+
+
+
+
+
+
