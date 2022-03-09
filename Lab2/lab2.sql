@@ -261,4 +261,47 @@ SELECT * FROM Top_Three;
 
 
 
+--2.3
+
+DROP TABLE IF EXISTS Judges;
+CREATE TABLE Judges(
+Timestamp DATETIME,
+Judge_ID TEXT,
+Judge_Name TEXT
+);
+
+INSERT INTO Judges (Timestamp, Judge_ID, Judge_Name) SELECT Timestamp, Judge_ID, Judge_Name
+FROM data_import WHERE 1;
+
+SELECT julianday('now') - julianday('1776-07-04');
+
+UPDATE Judges SET Timestamp = SUBSTR(Timestamp, 5, 4) || "-0" || SUBSTR(Timestamp, 1,1) || "-0" || SUBSTR(Timestamp, 3, 1) || " " || SUBSTR(Timestamp, 10, 2) || ":" || SUBSTR(Timestamp, 13, 2);
+
+
+
+
+
+
+DROP TABLE IF EXISTS Judges_Day;
+CREATE TABLE Judges_Day (
+Judge_ID TEXT,
+Judge_Name TEXT,
+Total_Cars INT,
+Start_Timestamp DATETIME,
+End_Timestamp DATETIME,
+Duration_Minutes INT,
+Average INT
+);
+
+
+
+INSERT INTO Judges_Day(Judge_ID, Judge_Name, Total_Cars, Start_Timestamp, End_Timestamp, Duration_Minutes, Average) SELECT Judge_ID, Judge_Name, COUNT(Timestamp) AS Total_Cars, MIN(Timestamp) AS Start_Timestamp, MAX(Timestamp) AS End_Timestamp, CAST((JULIANDAY(MAX(Timestamp)) - JULIANDAY(MIN(Timestamp)))*24*60 AS INT) AS  Duration_Minutes, CAST(((JULIANDAY(MAX(Timestamp)) - JULIANDAY(MIN(Timestamp)))*24*60) AS INT) / COUNT(Timestamp) as Average
+FROM Judges 
+GROUP BY Judge_ID;
+
+
+.headers on
+.mode csv
+.output Lab2/extract3.csv
+SELECT * FROM Judges_Day;
 
