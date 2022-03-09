@@ -212,3 +212,53 @@ INSERT INTO Rank(Rank, Car_ID, Year, Make, Model, Score) SELECT rowid, Car_ID, Y
 .output Lab2/extract1.csv
 SELECT * FROM Rank;
 
+
+
+
+
+-- 2.2
+DROP TABLE IF EXISTS Rank_Make;
+CREATE TABLE Rank_Make (
+Rank INT,
+Car_ID INT,
+Year INT,
+Make TEXT,
+Model TEXT,
+Score INT
+);
+
+INSERT INTO Rank_Make(Rank, Car_ID, Year, Make, Model, Score) SELECT Rank, Car_ID, Year, Make, Model, Score 
+FROM Rank 
+ORDER BY Make;
+
+
+
+DROP TABLE IF EXISTS Top_Three;
+CREATE TABLE Top_Three (
+Rank INT,
+Car_ID INT,
+Year INT,
+Make TEXT,
+Model TEXT,
+Score INT
+);
+
+INSERT INTO Top_Three (Rank, Car_ID, Year, Make, Model, Score)
+select *
+from Rank_Make
+where (
+   select count(*) from Rank_Make as f
+   where f.Make = Rank_Make.Make and f.Rank <= Rank_Make.Rank
+) <= 3;
+
+
+.headers on
+.mode csv
+.output Lab2/extract2.csv
+SELECT * FROM Top_Three;
+
+
+
+
+
+
