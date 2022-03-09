@@ -155,5 +155,60 @@ SELECT * FROM Car_Score;
 
 
 
+--2.1 Present the list in descending order using the total column
+-- add all scores together
+DROP TABLE IF EXISTS Total_Score;
 
+CREATE TABLE Total_Score (
+Car_ID INT,
+Year INT,
+Make TEXT,
+Model TEXT,
+Score INT
+);
+
+
+INSERT INTO Total_Score (Car_ID, Year, Make, Model, Score) SELECT Car_ID, Year, Make, Model, SUM(Racer_Turbo + Racer_Supercharged + Racer_Performance + Racer_Horsepower + Car_Overall + Engine_Modifications + Engine_Performance + Engine_Chrome + Engine_Detailing + Engine_Cleanliness + Body_Frame_Undercarriage + Body_Frame_Suspension + Body_Frame_Chrome + Body_Frame_Detailing + Body_Frame_Cleanliness + Mods_Paint + Mods_Body + Mods_Wrap + Mods_Rims + Mods_Interior + Mods_Other + Mods_ICE + Mods_Aftermarket + Mods_WIP + Mods_Overall)
+FROM data_import
+GROUP BY rowid
+;
+
+
+-- ranking without a new ranking column
+DROP TABLE IF EXISTS Rank_Temp;
+CREATE TABLE Rank_Temp (
+Car_ID INT,
+Year INT,
+Make TEXT,
+Model TEXT,
+Score INT
+);
+
+
+INSERT INTO Rank_Temp (Car_ID, Year, Make, Model, Score) SELECT Car_ID, Year, Make, Model, Score
+FROM Total_Score
+ORDER BY Score DESC;
+
+
+
+-- add rank column
+DROP TABLE IF EXISTS Rank;
+CREATE TABLE Rank (
+Rank INT,
+Car_ID INT,
+Year INT,
+Make TEXT,
+Model TEXT,
+Score INT
+);
+
+
+INSERT INTO Rank(Rank, Car_ID, Year, Make, Model, Score) SELECT rowid, Car_ID, Year, Make, Model, Score FROM Rank_Temp;
+
+
+
+.headers on
+.mode csv
+.output Lab2/extract1.csv
+SELECT * FROM Rank;
 
