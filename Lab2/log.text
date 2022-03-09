@@ -959,11 +959,6 @@ Total 4 (delta 2), reused 0 (delta 0)
 remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
 To git@github.com:kychennn/CISC3140-Lab.git
    8173cdf..c71d8e6  main -> main
-
-
-
-
-
 sqlite> DROP TABLE IF EXISTS Judges;
 sqlite> CREATE TABLE Judges(
    ...> Timestamp DATETIME,
@@ -981,9 +976,82 @@ sqlite> SELECT julianday('now') - julianday('2021-03-08');
 sqlite> SELECT julianday('now') - julianday('2022-03-08 23:00');
 0.229076331015676
 sqlite> UPDATE Judges SET Timestamp = SUBSTR(Timestamp, 5, 4) || "-0" || SUBSTR(Timestamp, 1,1) || "-0" || SUBSTR(Timestamp, 3, 1) || " " || SUBSTR(Timestamp, 10, 2) || ":" || SUBSTR(Timestamp, 13, 2);
+qlite> 
+sqlite> DROP TABLE IF EXISTS Judges_Day;
+sqlite> CREATE TABLE Judges_Day (
+   ...> Judge_ID TEXT,
+   ...> Judge_Name TEXT,
+   ...> Total_Cars INT,
+   ...> Start_Timestamp DATETIME,
+   ...> End_Timestamp DATETIME,
+   ...> Duration_Minutes INT,
+   ...> Average INT
+   ...> );
+sqlite> INSERT INTO Judges_Day(Judge_ID, Judge_Name, Total_Cars, Start_Timestamp, End_Timestamp, Duration_Minutes, Average) SELECT Judge_ID, Judge_Name, COUNT(Timestamp) AS Total_Cars, MIN(Timestamp) AS Start_Timestamp, MAX(Timestamp) AS End_Timestamp, CAST((JULIANDAY(MAX(Timestamp)) - JULIANDAY(MIN(Timestamp)))*24*60 AS INT) AS  Duration_Minutes, CAST(((JULIANDAY(MAX(Timestamp)) - JULIANDAY(MIN(Timestamp)))*24*60) AS INT) / COUNT(Timestamp) as Average
+   ...> FROM Judges GROUP BY Judge_ID;
+sqlite> .headers on
+sqlite> .mode csv
+sqlite> .output Lab2/extract3.csv
+sqlite> SELECT * FROM Judges_Day;
+sqlite> .quit
+[Jiayi.Chen64@sol25 CISC3140-Lab]$ cd Lab2
+[Jiayi.Chen64@sol25 Lab2]$ vim extract3.csv
+[Jiayi.Chen64@sol25 Lab2]$ git add -f extract3.csv
+[Jiayi.Chen64@sol25 Lab2]$ git commit -m"Update the Judges table" 
+[main 1ca37f1] Update the Judges table
+ 1 file changed, 9 insertions(+)
+ create mode 100644 Lab2/extract3.csv
+[Jiayi.Chen64@sol25 Lab2]$ git push
+warning: push.default is unset; its implicit value is changing in
+Git 2.0 from 'matching' to 'simple'. To squelch this message
+and maintain the current behavior after the default changes, use:
 
+  git config --global push.default matching
 
+To squelch this message and adopt the new behavior now, use:
 
+  git config --global push.default simple
 
+See 'git help config' and search for 'push.default' for further information.
+(the 'simple' mode was introduced in Git 1.7.11. Use the similar mode
+'current' instead of 'simple' if you sometimes use older versions of Git)
 
+Counting objects: 6, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (4/4), 579 bytes | 0 bytes/s, done.
+Total 4 (delta 2), reused 0 (delta 0)
+remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+To git@github.com:kychennn/CISC3140-Lab.git
+   7f023bf..1ca37f1  main -> main
+[Jiayi.Chen64@sol25 Lab2]$ vim Lab2.sql
+[Jiayi.Chen64@sol25 Lab2]$ ls
+Car_Score.csv  Cars.csv  extract1.csv  extract2.csv  extract3.csv  Judges.csv  lab2.sql  README.md
+[Jiayi.Chen64@sol25 Lab2]$ vim lab2.sql
+[Jiayi.Chen64@sol25 Lab2]$ git add -f lab2.sql
+[Jiayi.Chen64@sol25 Lab2]$ git commit -m"Update the Judges table sql" 
+[main b0ceb7d] Update the Judges table sql
+ 1 file changed, 43 insertions(+)
+[Jiayi.Chen64@sol25 Lab2]$ git push
+warning: push.default is unset; its implicit value is changing in
+Git 2.0 from 'matching' to 'simple'. To squelch this message
+and maintain the current behavior after the default changes, use:
 
+  git config --global push.default matching
+
+To squelch this message and adopt the new behavior now, use:
+
+  git config --global push.default simple
+
+See 'git help config' and search for 'push.default' for further information.
+(the 'simple' mode was introduced in Git 1.7.11. Use the similar mode
+'current' instead of 'simple' if you sometimes use older versions of Git)
+
+Counting objects: 7, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (4/4), 822 bytes | 0 bytes/s, done.
+Total 4 (delta 3), reused 0 (delta 0)
+remote: Resolving deltas: 100% (3/3), completed with 3 local objects.
+To git@github.com:kychennn/CISC3140-Lab.git
+   1ca37f1..b0ceb7d  main -> main
